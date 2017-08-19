@@ -12,15 +12,15 @@ router.use(bodyParser.json());
 router.post('/signup', function (req, res, next) {
     const {
         email,
-        account,
+        username,
         password
     } = req.body;
-    if (!email || !account || !password) {
-        const err = new Error('Somethings are required');
+    if (!email || !username || !password) {
+        const err = new Error('Somethings are required!');
         err.status = 400;
         throw err;
     }
-    signupModel.create(email, account, password).then(infor => {
+    signupModel.create(email, username, password).then(infor => {
         res.json(infor);
     }).catch(next);
 });
@@ -28,19 +28,25 @@ router.post('/signup', function (req, res, next) {
 // Log In
 router.post('/login', function (req, res, next) {
     const {
-        account,
+        username,
         password
     } = req.body;
-    if (!account || !password) {
-        const err = new Error('Somethings are required');
+    if (!username || !password) {
+        const err = new Error('Somethings are required!');
         err.status = 400;
         throw err;
     }
-    loginModel.verify(account,password).then(infor => {
-        res.json(infor);
+    loginModel.verify(username).then(infor => {
+        if(infor[0].password == password){
+            res.json({
+                text:"Success!"
+            });
+        }else{
+            res.json({
+                text:"Fail!"
+            });
+        }
     }).catch(next);
 });
-
-
 
 module.exports = router;

@@ -3,15 +3,15 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
-function verify(account, password) {
+function verify(username) {
 
-    const where = account ? `WHERE text ILIKE '$1:value'` : '';
+    const where = username ? `WHERE username ILIKE '$1:value'` : '';
     const sql = `
         SELECT *
-        FROM sideproject
+        FROM Users
         ${where}
     `;
-    return db.any(sql, account);
+    return db.any(sql, username);
 }
 
 module.exports = {
