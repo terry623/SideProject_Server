@@ -4,14 +4,13 @@ if (!global.db) {
 }
 
 function verify(username) {
-
-    const where = username ? `WHERE username ILIKE '$1:value'` : '';
+    const where = username ? `WHERE username = '$1:value'` : '';
     const sql = `
         SELECT *
         FROM Users
         ${where}
     `;
-    return db.any(sql, username);
+    return db.one(sql, username);
 }
 
 module.exports = {

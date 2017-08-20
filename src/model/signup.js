@@ -3,13 +3,14 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
-function create(email, username, password) {
+function create(username, password) {
+    //Insert Distinct
     const sql = `
         INSERT INTO Users ($<this:name>)
-        VALUES ($<email>, $<username>, $<password>)
+        VALUES ($<username>, $<password>)
         RETURNING *
     `;
-    return db.one(sql, {email, username, password});
+    return db.one(sql, {username, password});
 }
 
 module.exports = {
