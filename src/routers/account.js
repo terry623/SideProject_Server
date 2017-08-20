@@ -17,21 +17,18 @@ router.post('/signup', function (req, res, next) {
         password
     } = req.body;
 
-    if (!username || !password) {
-        const err = new Error('Somethings are required!');
-        err.status = 400;
-        throw err;
-    }
-
-    signupModel.create(username, password).then(infor => {
-        if (!infor) {
+    signupModel.check_account(username).then(result => {
+        if (result.length > 0) {
             const err = new Error('Account Exist!');
             err.status = 400;
             throw err;
+        } else {
+            signupModel.create(username, password).then(infor => {
+                res.json(infor);
+            }).catch(next);
         }
-        res.json(infor);
-
     }).catch(next);
+
 });
 
 // Log In
@@ -42,32 +39,24 @@ router.post('/login', function (req, res, next) {
         password
     } = req.body;
 
-    if (!username || !password) {
-        const err = new Error('Somethings are required!');
-        err.status = 400;
-        throw err;
-    }
-
     loginModel.verify(username).then(infor => {
-
-        if (!infor) {
+        if (infor.length > 0) {
+            if (infor[0].password == password) {
+                res.json(infor);
+            } else {
+                const err = new Error('Wrong Password!');
+                err.status = 400;
+                throw err;
+            }
+        } else {
             const err = new Error('Wrong Account!');
             err.status = 400;
             throw err;
         }
-
-        if (infor.password == password) {
-            res.json(infor);
-        } else {
-            const err = new Error('Wrong Password!');
-            err.status = 400;
-            throw err;
-        }
-
     }).catch(next);
 });
 
-// Stroe Location
+// Store Location
 router.post('/store_location', function (req, res, next) {
 
     const {
@@ -76,20 +65,8 @@ router.post('/store_location', function (req, res, next) {
         lng
     } = req.body;
 
-    if (!account || !lat || !lng) {
-        const err = new Error('Somethings are required!');
-        err.status = 400;
-        throw err;
-    }
-
     photoModel.store_location(account, lat, lng).then(infor => {
-        if (!infor) {
-            const err = new Error('Store Location Error!');
-            err.status = 400;
-            throw err;
-        }
         res.json(infor);
-
     }).catch(next);
 });
 

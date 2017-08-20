@@ -3,8 +3,17 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
+function check_account(username) {
+    const where = username ? `WHERE username = '$1:value'` : '';
+    const sql = `
+        SELECT *
+        FROM Users
+        ${where}
+    `;
+    return db.any(sql, username);
+}
+
 function create(username, password) {
-    //Insert Distinct
     const sql = `
         INSERT INTO Users ($<this:name>)
         VALUES ($<username>, $<password>)
@@ -14,5 +23,6 @@ function create(username, password) {
 }
 
 module.exports = {
-    create
+    create,
+    check_account
 };

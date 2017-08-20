@@ -10,7 +10,7 @@ function verify(username) {
         FROM Users
         ${where}
     `;
-    return db.one(sql, username);
+    return db.any(sql, username);
 }
 
 module.exports = {
