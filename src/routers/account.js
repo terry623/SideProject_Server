@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const signupModel = require('../model/signup.js');
 const loginModel = require('../model/login.js');
+const photoModel = require('../model/photo.js');
 const otherModel = require('../model/other.js');
 const router = express.Router();
 
@@ -66,13 +67,39 @@ router.post('/login', function (req, res, next) {
     }).catch(next);
 });
 
+// Stroe Location
+router.post('/store_location', function (req, res, next) {
+
+    const {
+        account,
+        lat,
+        lng
+    } = req.body;
+
+    if (!account || !lat || !lng) {
+        const err = new Error('Somethings are required!');
+        err.status = 400;
+        throw err;
+    }
+
+    photoModel.store_location(account, lat, lng).then(infor => {
+        if (!infor) {
+            const err = new Error('Store Location Error!');
+            err.status = 400;
+            throw err;
+        }
+        res.json(infor);
+
+    }).catch(next);
+});
+
 // Show All Information
 router.post('/show', function (req, res, next) {
-    
-        otherModel.show().then(infor => {
-            res.json(infor);
-        }).catch(next);
-    
-    });
+
+    otherModel.show().then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
 
 module.exports = router;
