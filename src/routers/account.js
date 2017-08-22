@@ -82,15 +82,15 @@ router.post('/store_location', function (req, res, next) {
 
 // Get Store Location
 router.post('/get_store_location', function (req, res, next) {
-    
-        const {
-            account
-        } = req.body;
-    
-        photoModel.get_store_location(account).then(infor => {
-            res.json(infor);
-        }).catch(next);
-    });
+
+    const {
+        account
+    } = req.body;
+
+    photoModel.get_store_location(account).then(infor => {
+        res.json(infor);
+    }).catch(next);
+});
 
 // Store Photo Url
 router.post('/store_photo_url', function (req, res, next) {
@@ -101,6 +101,20 @@ router.post('/store_photo_url', function (req, res, next) {
     } = req.body;
 
     photoModel.store_photo_url(account, url).then(infor => {
+        res.json(infor);
+    }).catch(next);
+});
+
+// Store Current Position
+router.post('/store_current_position', function (req, res, next) {
+
+    const {
+        account,
+        lat,
+        lng
+    } = req.body;
+
+    photoModel.store_current_position(account, lat, lng).then(infor => {
         res.json(infor);
     }).catch(next);
 });

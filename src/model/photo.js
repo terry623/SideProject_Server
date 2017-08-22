@@ -48,9 +48,22 @@ function get_store_photo_url(account) {
     return db.one(sql, {account});
 }
 
+function store_current_position(account, lat, lng) {
+    
+        const sql = `
+            UPDATE Users
+            SET current_lat = $2 , current_lng = $3
+            WHERE username = $1
+            RETURNING *
+        `;
+    
+        return db.one(sql, [account, lat, lng]);
+    }
+
 module.exports = {
     store_location,
     list_photos,
     store_photo_url,
-    get_store_photo_url
+    get_store_photo_url,
+    store_current_position
 };
