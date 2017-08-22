@@ -56,6 +56,16 @@ router.post('/login', function (req, res, next) {
     }).catch(next);
 });
 
+// List Photos
+router.get('/photos', function (req, res, next) {
+    const {
+        account
+    } = req.query;
+    photoModel.list_photos(account).then(photos => {
+        res.json(photos);
+    }).catch(next);
+});
+
 // Store Location
 router.post('/store_location', function (req, res, next) {
 
@@ -66,6 +76,31 @@ router.post('/store_location', function (req, res, next) {
     } = req.body;
 
     photoModel.store_location(account, lat, lng).then(infor => {
+        res.json(infor);
+    }).catch(next);
+});
+
+// Get Store Location
+router.post('/get_store_location', function (req, res, next) {
+    
+        const {
+            account
+        } = req.body;
+    
+        photoModel.get_store_location(account).then(infor => {
+            res.json(infor);
+        }).catch(next);
+    });
+
+// Store Photo Url
+router.post('/store_photo_url', function (req, res, next) {
+
+    const {
+        account,
+        url
+    } = req.body;
+
+    photoModel.store_photo_url(account, url).then(infor => {
         res.json(infor);
     }).catch(next);
 });
