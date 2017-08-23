@@ -37,7 +37,7 @@ function store_photo_url(account, photo_url) {
 
     return db.one(sql, {
         account,
-        url
+        photo_url
     });
 }
 
@@ -57,7 +57,7 @@ function get_photo_infor(account) {
     const sql = `
         SELECT *
         FROM Photos
-        where username = $1
+        where account = $1
     `;
 
     return db.any(sql, [account]);

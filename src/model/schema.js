@@ -4,6 +4,7 @@ const db = pgp(process.env.DB_URL);
 
 const schemaSql = `
     DROP TABLE IF EXISTS Users;
+    DROP TABLE IF EXISTS Photos;
 
     CREATE TABLE Users (
         id              serial PRIMARY KEY NOT NULL,
@@ -18,7 +19,7 @@ const schemaSql = `
     CREATE TABLE Photos (
         id              serial PRIMARY KEY NOT NULL,
         "account"       varchar(50) NOT NULL,
-        "photo_url"     varchar(100) NOT NULL
+        "photo_url"     varchar(300) NOT NULL
     );
 `;
 
