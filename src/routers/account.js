@@ -92,18 +92,18 @@ router.post('/store_photo_url', function (req, res, next) {
 
     const {
         account,
-        url
+        photo_url
     } = req.body;
 
-    photoModel.store_photo_url(account, url).then(infor => {
+    photoModel.store_photo_url(account, photo_url).then(infor => {
         res.json(infor);
     }).catch(next);
 
 });
 
-// Get Last position
-router.post('/get_last_position', function (req, res, next) {
-
+// Get Current position
+router.post('/get_current_position', function (req, res, next) {
+    
     const {
         account
     } = req.body;
@@ -114,9 +114,9 @@ router.post('/get_last_position', function (req, res, next) {
 
 });
 
-// Get Current position
-router.post('/get_current_position', function (req, res, next) {
-    
+// Get Last position
+router.post('/get_last_position', function (req, res, next) {
+
     const {
         account
     } = req.body;
