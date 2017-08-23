@@ -3,7 +3,19 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
-function store_location(account, lat, lng) {
+function store_current_position(account, lat, lng) {
+
+    const sql = `
+            UPDATE Users
+            SET current_lat = $2 , current_lng = $3
+            WHERE username = $1
+            RETURNING *
+        `;
+
+    return db.one(sql, [account, lat, lng]);
+}
+
+function store_last_position(account, lat, lng) {
 
     const sql = `
         UPDATE Users
@@ -15,7 +27,32 @@ function store_location(account, lat, lng) {
     return db.one(sql, [account, lat, lng]);
 }
 
-function list_photos(account) {
+function store_photo_url(account, photo_url) {
+
+    const sql = `
+        INSERT INTO Photos ($<this:name>)
+        VALUES ($<account>, $<photo_url>)
+        RETURNING *
+    `;
+
+    return db.one(sql, {
+        account,
+        url
+    });
+}
+
+function get_user_infor(account) {
+
+    const sql = `
+        SELECT *
+        FROM Users
+        where username = $1
+    `;
+
+    return db.any(sql, [account]);
+}
+
+function get_photo_infor(account) {
 
     const sql = `
         SELECT *
@@ -26,44 +63,10 @@ function list_photos(account) {
     return db.any(sql, [account]);
 }
 
-function store_photo_url(account,url) {
-    
-    const sql = `
-        INSERT INTO Users ($<this:name>)
-        VALUES ($<account>, $<url>)
-        RETURNING *
-    `;
-
-    return db.one(sql, {account, url});
-}
-
-function get_store_photo_url(account) {
-    
-    const sql = `
-        SELECT *
-        FROM Users
-        where username = $1
-    `;
-
-    return db.one(sql, {account});
-}
-
-function store_current_position(account, lat, lng) {
-    
-        const sql = `
-            UPDATE Users
-            SET current_lat = $2 , current_lng = $3
-            WHERE username = $1
-            RETURNING *
-        `;
-    
-        return db.one(sql, [account, lat, lng]);
-    }
-
 module.exports = {
-    store_location,
-    list_photos,
+    store_current_position,
+    store_last_position,
     store_photo_url,
-    get_store_photo_url,
-    store_current_position
+    get_user_infor,
+    get_photo_infor
 };

@@ -3,26 +3,29 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
-function check_account(username) {
+function check_username(username) {
     const where = username ? `WHERE username = '$1:value'` : '';
     const sql = `
         SELECT *
         FROM Users
         ${where}
     `;
-    return db.any(sql, username);
+    return db.any(sql, [username]);
 }
 
-function create(username, password) {
+function create_account(username, password) {
     const sql = `
         INSERT INTO Users ($<this:name>)
         VALUES ($<username>, $<password>)
         RETURNING *
     `;
-    return db.one(sql, {username, password});
+    return db.one(sql, {
+        username,
+        password
+    });
 }
 
 module.exports = {
-    create,
-    check_account
+    create_account,
+    check_username
 };

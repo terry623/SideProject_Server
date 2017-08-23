@@ -17,8 +17,8 @@ const schemaSql = `
 
     CREATE TABLE Photos (
         id              serial PRIMARY KEY NOT NULL,
-        "account"      varchar(50) NOT NULL,
-        "url"           varchar(100) NOT NULL
+        "account"       varchar(50) NOT NULL,
+        "photo_url"     varchar(100) NOT NULL
     );
 `;
 

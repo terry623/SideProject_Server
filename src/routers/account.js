@@ -17,13 +17,13 @@ router.post('/signup', function (req, res, next) {
         password
     } = req.body;
 
-    signupModel.check_account(username).then(result => {
+    signupModel.check_username(username).then(result => {
         if (result.length > 0) {
             const err = new Error('Account Exist!');
             err.status = 400;
             throw err;
         } else {
-            signupModel.create(username, password).then(infor => {
+            signupModel.create_account(username, password).then(infor => {
                 res.json(infor);
             }).catch(next);
         }
@@ -54,55 +54,7 @@ router.post('/login', function (req, res, next) {
             throw err;
         }
     }).catch(next);
-});
 
-// List Photos
-router.get('/photos', function (req, res, next) {
-    const {
-        account
-    } = req.query;
-    photoModel.list_photos(account).then(photos => {
-        res.json(photos);
-    }).catch(next);
-});
-
-// Store Location
-router.post('/store_location', function (req, res, next) {
-
-    const {
-        account,
-        lat,
-        lng
-    } = req.body;
-
-    photoModel.store_location(account, lat, lng).then(infor => {
-        res.json(infor);
-    }).catch(next);
-});
-
-// Get Store Location
-router.post('/get_store_location', function (req, res, next) {
-
-    const {
-        account
-    } = req.body;
-
-    photoModel.get_store_location(account).then(infor => {
-        res.json(infor);
-    }).catch(next);
-});
-
-// Store Photo Url
-router.post('/store_photo_url', function (req, res, next) {
-
-    const {
-        account,
-        url
-    } = req.body;
-
-    photoModel.store_photo_url(account, url).then(infor => {
-        res.json(infor);
-    }).catch(next);
 });
 
 // Store Current Position
@@ -117,12 +69,90 @@ router.post('/store_current_position', function (req, res, next) {
     photoModel.store_current_position(account, lat, lng).then(infor => {
         res.json(infor);
     }).catch(next);
+
 });
 
-// Show All Information
-router.post('/show', function (req, res, next) {
+// Store Last Position
+router.post('/store_last_position', function (req, res, next) {
 
-    otherModel.show().then(infor => {
+    const {
+        account,
+        lat,
+        lng
+    } = req.body;
+
+    photoModel.store_last_position(account, lat, lng).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Store Photo Url
+router.post('/store_photo_url', function (req, res, next) {
+
+    const {
+        account,
+        url
+    } = req.body;
+
+    photoModel.store_photo_url(account, url).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Get Last position
+router.post('/get_last_position', function (req, res, next) {
+
+    const {
+        account
+    } = req.body;
+
+    photoModel.get_user_infor(account).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Get Current position
+router.post('/get_current_position', function (req, res, next) {
+    
+    const {
+        account
+    } = req.body;
+
+    photoModel.get_user_infor(account).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// List Photos
+router.get('/list_photos', function (req, res, next) {
+
+    const {
+        account
+    } = req.query;
+
+    photoModel.get_photo_infor(account).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Show All Users
+router.post('/show_all_users', function (req, res, next) {
+
+    otherModel.show_all_users().then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Show All Photos
+router.post('/show_all_photos', function (req, res, next) {
+
+    otherModel.show_all_photos().then(infor => {
         res.json(infor);
     }).catch(next);
 
