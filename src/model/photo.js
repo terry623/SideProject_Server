@@ -3,6 +3,18 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
+function initial_position(account, lat, lng) {
+    
+        const sql = `
+                UPDATE Users
+                SET store_lat = $2 , store_lng = $3
+                WHERE username = $1
+                RETURNING *
+            `;
+    
+        return db.one(sql, [account, lat, lng]);
+    }
+
 function store_current_position(account, lat, lng) {
 
     const sql = `
@@ -64,6 +76,7 @@ function get_photo_infor(account) {
 }
 
 module.exports = {
+    initial_position,
     store_current_position,
     store_last_position,
     store_photo_url,

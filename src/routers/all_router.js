@@ -57,6 +57,21 @@ router.post('/login', function (req, res, next) {
 
 });
 
+// Initial Position
+router.post('/initial_position', function (req, res, next) {
+
+    const {
+        account,
+        lat,
+        lng
+    } = req.body;
+
+    photoModel.initial_position(account, lat, lng).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
 // Store Current Position
 router.post('/store_current_position', function (req, res, next) {
 
@@ -103,7 +118,7 @@ router.post('/store_photo_url', function (req, res, next) {
 
 // Get Current position
 router.post('/get_current_position', function (req, res, next) {
-    
+
     const {
         account
     } = req.body;
@@ -122,7 +137,16 @@ router.post('/get_last_position', function (req, res, next) {
     } = req.body;
 
     photoModel.get_user_infor(account).then(infor => {
-        res.json(infor);
+        if (infor[0].store_lat !== 0 || infor[0].store.lng !== 0) {
+            console.log("account:" + account);
+            console.log("No1:" + infor[0].store_lat);
+            console.log("No2:" + infor[0].store_lng);
+            res.json(infor);
+        } else {
+            const err = new Error('Initial Position!');
+            err.status = 400;
+            throw err;
+        }
     }).catch(next);
 
 });
