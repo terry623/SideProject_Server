@@ -3,16 +3,16 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
-function store_current_position(account, lat, lng) {
+function store_current_position(account, lat, lng, heading, pitch) {
 
     const sql = `
         UPDATE Users
-        SET current_lat = $2 , current_lng = $3
+        SET current_lat = $2 , current_lng = $3 , current_heading = $4 , current_pitch = $5
         WHERE username = $1
         RETURNING *
     `;
 
-    return db.one(sql, [account, lat, lng]);
+    return db.one(sql, [account, lat, lng, heading, pitch]);
 }
 
 function store_photo_url(account, photo_url) {

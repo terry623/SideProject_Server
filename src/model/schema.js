@@ -10,10 +10,10 @@ const schemaSql = `
         id              serial PRIMARY KEY NOT NULL,
         "username"      varchar(50) NOT NULL,
         "password"      varchar(50) NOT NULL,
-        "store_lat"     float NOT NULL DEFAULT 0,
-        "store_lng"     float NOT NULL DEFAULT 0,
         "current_lat"   float NOT NULL DEFAULT 0,
-        "current_lng"   float NOT NULL DEFAULT 0
+        "current_lng"   float NOT NULL DEFAULT 0,
+        "current_heading"   float NOT NULL DEFAULT 0,
+        "current_pitch"   float NOT NULL DEFAULT 0
     );
 
     CREATE TABLE Photos (

@@ -63,10 +63,12 @@ router.post('/store_current_position', function (req, res, next) {
     const {
         account,
         lat,
-        lng
+        lng,
+        heading,
+        pitch
     } = req.body;
 
-    photoModel.store_current_position(account, lat, lng).then(infor => {
+    photoModel.store_current_position(account, lat, lng, heading, pitch).then(infor => {
         res.json(infor);
     }).catch(next);
 
