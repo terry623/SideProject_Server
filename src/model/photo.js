@@ -3,35 +3,11 @@ if (!global.db) {
     db = pgp(process.env.DB_URL);
 }
 
-function initial_position(account, lat, lng) {
-    
-        const sql = `
-                UPDATE Users
-                SET store_lat = $2 , store_lng = $3
-                WHERE username = $1
-                RETURNING *
-            `;
-    
-        return db.one(sql, [account, lat, lng]);
-    }
-
 function store_current_position(account, lat, lng) {
 
     const sql = `
-            UPDATE Users
-            SET current_lat = $2 , current_lng = $3
-            WHERE username = $1
-            RETURNING *
-        `;
-
-    return db.one(sql, [account, lat, lng]);
-}
-
-function store_last_position(account, lat, lng) {
-
-    const sql = `
         UPDATE Users
-        SET store_lat = $2 , store_lng = $3
+        SET current_lat = $2 , current_lng = $3
         WHERE username = $1
         RETURNING *
     `;
@@ -61,7 +37,7 @@ function get_user_infor(account) {
         where username = $1
     `;
 
-    return db.any(sql, [account]);
+    return db.one(sql, [account]);
 }
 
 function get_photo_infor(account) {
@@ -76,9 +52,7 @@ function get_photo_infor(account) {
 }
 
 module.exports = {
-    initial_position,
     store_current_position,
-    store_last_position,
     store_photo_url,
     get_user_infor,
     get_photo_infor
