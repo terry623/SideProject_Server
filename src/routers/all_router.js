@@ -88,19 +88,6 @@ router.post('/store_photo_url', function (req, res, next) {
 
 });
 
-// Get Current position
-router.post('/get_current_position', function (req, res, next) {
-
-    const {
-        account
-    } = req.body;
-
-    photoModel.get_user_infor(account).then(infor => {
-        res.json(infor);
-    }).catch(next);
-
-});
-
 // Get Last position
 router.post('/get_last_position', function (req, res, next) {
 

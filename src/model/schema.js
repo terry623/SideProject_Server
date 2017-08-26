@@ -10,7 +10,7 @@ const schemaSql = `
         id              serial PRIMARY KEY NOT NULL,
         "username"      varchar(50) NOT NULL,
         "password"      varchar(50) NOT NULL,
-        "start_time"   timestamp without time zone default (now() at time zone 'utc+8'),
+        "travel_time"   int NOT NULL DEFAULT 0,
         "current_lat"   float NOT NULL DEFAULT 0,
         "current_lng"   float NOT NULL DEFAULT 0,
         "current_heading"   float NOT NULL DEFAULT 0,
