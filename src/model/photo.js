@@ -29,6 +29,18 @@ function store_photo_url(account, photo_url) {
     });
 }
 
+function store_travel_time(account, travel_time) {
+
+    const sql = `
+        UPDATE Users
+        SET travel_time = $2
+        WHERE username = $1
+        RETURNING *
+    `;
+
+    return db.one(sql, [account, travel_time]);
+}
+
 function get_user_infor(account) {
 
     const sql = `
@@ -55,5 +67,6 @@ module.exports = {
     store_current_position,
     store_photo_url,
     get_user_infor,
-    get_photo_infor
+    get_photo_infor,
+    store_travel_time
 };
