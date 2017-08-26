@@ -1,39 +1,17 @@
 <!doctype html>
 <html>
 
-<body>
-  <!-- <ul id="messages"></ul>
-  <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
-  </form>
-  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
-  <!-- <script>
-    $(function () {
-      var socket = io();
-      $('form').submit(function () {
-        console.log("hello");
-        socket.emit('chat message', "hello");
-        $('#m').val('');
-        return false;
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:8080', {reconnect: true});
+      socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', {
+          my: 'data'
+        });
       });
-      socket.on('chat message', function (msg) {
-        console.log("hey:", msg);
-        $('#messages').append($('<li>').text(msg));
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-    });
-  </script> -->
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect('http://localhost');
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', {
-        my: 'data'
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 
 </html>
