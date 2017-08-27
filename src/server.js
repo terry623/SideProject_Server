@@ -13,17 +13,12 @@ var io = require('socket.io').listen(server);
 
 app.use(express.static('dist'));
 app.use('/api', all_router);
-app.get('/chat', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
 app.get('/*', (req, res) => res.redirect('/'));
 app.use(errorHandler);
 
-io.on('connection', function (socket) {
-  socket.emit('news', {
-    hello: 'world'
-  });
-  socket.on('my other event', function (data) {
-    console.log(data);
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    console.log(msg);
+    io.emit('chat message', msg);
   });
 });

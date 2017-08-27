@@ -1,7 +1,7 @@
 {
   "name": "terrylin-side-project-server",
   "version": "1.0.0",
-  "description": "The website about the photography.",
+  "description": "The website is about the photography.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
