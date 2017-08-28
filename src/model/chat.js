@@ -29,10 +29,10 @@ function get_target_socket_id(account) {
 function search_friends(account) {
 
     const sql = `
-        SELECT a.account, a.current_lat, a.current_lng
+        SELECT a.username, a.current_lat, a.current_lng
         FROM Users a, Distance b
-        where ( b.client_1 = $1 and a.account = b.client_2 ) 
-        or ( b.client_2 = $1 and a.account = b.client_1 )
+        where ( b.client_1 = $1 and a.username = b.client_2 ) 
+        or ( b.client_2 = $1 and a.username = b.client_1 )
     `;
 
     return db.any(sql, [account]);

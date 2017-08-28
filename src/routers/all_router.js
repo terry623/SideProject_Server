@@ -27,9 +27,9 @@ router.post('/signup', function (req, res, next) {
             signupModel.create_account(username, password).then(infor => {
                 otherModel.show_all_users().then(people => {
                     people.map(result => {
-                        if (infor.account !== result.account) {
-                            chatModel.add_friends(infor.account, result.account).then(relationshop => {
-                                console.log(infor.account + " & " + result.account + " become friend");
+                        if (infor.username !== result.username) {
+                            chatModel.add_friends(infor.username, result.username).then(relationshop => {
+                                console.log(infor.username + " & " + result.username + " become friend");
                             }).catch(next);
                         }
                     });
@@ -177,6 +177,15 @@ router.post('/show_all_photos', function (req, res, next) {
     }).catch(next);
 
 });
+
+// Show All Distance
+router.post('/show_all_distance', function (req, res, next) {
+    
+        otherModel.show_all_distance().then(infor => {
+            res.json(infor);
+        }).catch(next);
+    
+    });
 
 // Calculate Distance
 function get_distance_from_lat_lng(lat1, lon1, lat2, lon2) {

@@ -19,7 +19,16 @@ function show_all_photos() {
     return db.any(sql);
 }
 
+function show_all_distance() {
+    const sql = `
+        SELECT *
+        FROM Distance
+    `;
+    return db.any(sql);
+}
+
 module.exports = {
     show_all_users,
-    show_all_photos
+    show_all_photos,
+    show_all_distance
 };
