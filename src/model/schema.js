@@ -23,6 +23,13 @@ const schemaSql = `
         "account"       varchar(50) NOT NULL,
         "photo_url"     varchar(300) NOT NULL
     );
+
+    CREATE TABLE Distance (
+        id              serial PRIMARY KEY NOT NULL,
+        "client_1"       varchar(50) NOT NULL,
+        "client_2"       varchar(50) NOT NULL,
+        "distance"       int NOT NULL DEFAULT 0
+    );
 `;
 
 db.none(schemaSql).then(() => {
