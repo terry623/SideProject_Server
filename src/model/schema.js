@@ -10,6 +10,7 @@ const schemaSql = `
         id              serial PRIMARY KEY NOT NULL,
         "username"      varchar(50) NOT NULL,
         "password"      varchar(50) NOT NULL,
+        "socket_id"     varchar(50),
         "travel_time"   int NOT NULL DEFAULT 0,
         "current_lat"   float NOT NULL DEFAULT 0,
         "current_lng"   float NOT NULL DEFAULT 0,

@@ -25,7 +25,7 @@ io.on('connection', function (socket) {
 
   socket.on('chat message', function (id, msg) {
     console.log("id: " + id + " , msg: " + msg);
-    socket.broadcast.to(id).emit('my message', msg);
+    io.to(id).emit('my message', msg);
   });
 
 });

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const signupModel = require('../model/signup.js');
 const loginModel = require('../model/login.js');
 const photoModel = require('../model/photo.js');
+const chatModel = require('../model/chat.js');
 const otherModel = require('../model/other.js');
 const router = express.Router();
 
@@ -110,6 +111,33 @@ router.get('/list_photos', function (req, res, next) {
     } = req.query;
 
     photoModel.get_photo_infor(account).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Store Socket Id
+router.post('/store_socket_id', function (req, res, next) {
+
+    const {
+        account,
+        socket_id
+    } = req.body;
+
+    chatModel.store_socket_id(account, socket_id).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Get Target Socket Id
+router.post('/get_target_socket_id', function (req, res, next) {
+
+    const {
+        account
+    } = req.body;
+
+    chatModel.get_target_socket_id(account).then(infor => {
         res.json(infor);
     }).catch(next);
 
