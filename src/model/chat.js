@@ -67,11 +67,12 @@ function update_distance(client_1, client_2, distance) {
 function find_friends_around_you(account) {
 
     const sql = `
-        SELECT b.client_1, b.client_2
+        SELECT b.client_1, b.client_2, a.socket_id
         FROM Users a, Distance b
-        where ( ( b.client_1 = $1 and a.username = b.client_1 ) or ( b.client_2 = $1 and a.username = b.client_2 ) )
-        and b.distance < 1
-        and a.socket_id != null
+        where
+        ( b.client_1 = $1 and a.username = b.client_2 and b.distance < 1 )
+        or
+        ( b.client_2 = $1 and a.username = b.client_1 and b.distance < 1 )
     `;
 
     return db.any(sql, [account]);

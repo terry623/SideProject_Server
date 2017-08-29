@@ -171,6 +171,11 @@ router.post('/find_friends_around_you', function (req, res, next) {
     } = req.body;
 
     chatModel.find_friends_around_you(account).then(infor => {
+        infor.map(result => {
+            console.log(result.client_1);
+            console.log(result.client_2);
+            console.log(result.socket_id);
+        });
         res.json(infor);
     }).catch(next);
 
