@@ -28,8 +28,8 @@ router.post('/signup', function (req, res, next) {
                 otherModel.show_all_users().then(people => {
                     people.map(result => {
                         if (infor.username !== result.username) {
-                            chatModel.add_friends(infor.username, result.username).then(relationshop => {
-                                console.log(infor.username + " & " + result.username + " become friend");
+                            chatModel.add_friends(infor.username, result.username).then(relationship => {
+                                console.log(relationship.client_1 + " & " + relationship.client_2 + " become friend");
                             }).catch(next);
                         }
                     });
@@ -80,11 +80,11 @@ router.post('/store_current_position', function (req, res, next) {
     } = req.body;
 
     photoModel.store_current_position(account, lat, lng, heading, pitch, time).then(infor => {
-        chatModel.search_friends(account).then(friend => {
-            friends.map(result => {
-                var distance = get_distance_from_lat_lng(lat, lng, result.current_lat, result.current_lng);
-                chatModel.update_distance(account, result.account, distance).then(distance => {
-                    console.log(account + " & " + result.account + " distance is " + distance + " km");
+        chatModel.search_friends(account).then(all_friends => {
+            all_friends.map(friend => {
+                var distance = get_distance_from_lat_lng(lat, lng, friend.current_lat, friend.current_lng);
+                chatModel.update_distance(account, friend.username, distance).then(result => {
+                    console.log(result.client_1 + " & " + result.client_2 + " distance is " + result.distance + " km");
                 }).catch(next);
             });
         }).catch(next);
