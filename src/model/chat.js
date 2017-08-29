@@ -65,14 +65,28 @@ function update_distance(client_1, client_2, distance) {
 }
 
 function find_friends_around_you(account) {
-    
-        const sql = `
-            SELECT *
-            FROM Distance
-            where ( client_1 = $1 or client_2 = $1 ) and distance < 1
-        `;
+
+    const sql = `
+        SELECT b.client_1, b.client_2
+        FROM Users a, Distance b
+        where ( ( b.client_1 = $1 and a.username = b.client_1 ) or ( b.client_2 = $1 and a.username = b.client_2 ) )
+        and b.distance < 1
+        and a.socket_id != null
+    `;
 
     return db.any(sql, [account]);
+}
+
+function remove_socket_id(socket_id) {
+
+    const sql = `
+        UPDATE Users
+        SET socket_id = null
+        where socket_id = $1
+        RETURNING *
+    `;
+
+    return db.any(sql, [socket_id]);
 }
 
 module.exports = {
@@ -81,5 +95,6 @@ module.exports = {
     search_friends,
     add_friends,
     update_distance,
-    find_friends_around_you
+    find_friends_around_you,
+    remove_socket_id
 };

@@ -29,7 +29,7 @@ router.post('/signup', function (req, res, next) {
                     people.map(result => {
                         if (infor.username !== result.username) {
                             chatModel.add_friends(infor.username, result.username).then(relationship => {
-                                console.log(relationship.client_1 + " & " + relationship.client_2 + " become friends");
+                                // console.log(relationship.client_1 + " & " + relationship.client_2 + " become friends");
                             }).catch(next);
                         }
                     });
@@ -82,11 +82,14 @@ router.post('/store_current_position', function (req, res, next) {
     photoModel.store_current_position(account, lat, lng, heading, pitch, time).then(infor => {
         chatModel.search_friends(account).then(all_friends => {
             all_friends.map(friend => {
-                var distance = get_distance_from_lat_lng(lat, lng, friend.current_lat, friend.current_lng);
-                chatModel.update_distance(account, friend.username, distance).then(result => {
-                    console.log(result.client_1 + " & " + result.client_2 + " distance is " + result.distance + " km");
-                }).catch(next);
+                if (friend.current_lat !== 0 && friend.current_lng !== 0) {
+                    var distance = get_distance_from_lat_lng(lat, lng, friend.current_lat, friend.current_lng);
+                    chatModel.update_distance(account, friend.username, distance).then(result => {
+                        console.log(result.client_1 + " & " + result.client_2 + " distance is " + result.distance + " km");
+                    }).catch(next);
+                }
             });
+            console.log('\n');
         }).catch(next);
         res.json(infor);
     }).catch(next);
@@ -162,7 +165,7 @@ router.post('/get_target_socket_id', function (req, res, next) {
 
 // Find Friends Around You
 router.post('/find_friends_around_you', function (req, res, next) {
-    
+
     const {
         account
     } = req.body;
@@ -193,12 +196,12 @@ router.post('/show_all_photos', function (req, res, next) {
 
 // Show All Distance
 router.post('/show_all_distance', function (req, res, next) {
-    
-        otherModel.show_all_distance().then(infor => {
-            res.json(infor);
-        }).catch(next);
-    
-    });
+
+    otherModel.show_all_distance().then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
 
 // Calculate Distance
 function get_distance_from_lat_lng(lat1, lon1, lat2, lon2) {

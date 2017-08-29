@@ -11,6 +11,8 @@ var server = app.listen(port, () => {
 });
 var io = require('socket.io').listen(server);
 
+const chatModel = require('./model/chat.js');
+
 app.use(express.static('dist'));
 app.use('/api', all_router);
 app.get('/*', (req, res) => res.redirect('/'));
@@ -23,9 +25,17 @@ io.on('connection', function (socket) {
     console.log(clients);
   });
 
-  socket.on('chat message', function (id, msg) {
-    console.log("id: " + id + " , msg: " + msg);
-    io.to(id).emit('my message', msg);
+  socket.on('disconnect', function () {
+    chatModel.remove_socket_id(socket.id).then(result => {
+      if(result.length > 0)console.log("Success Remove Socket ID : " + socket.id);
+    }).catch();
+  });
+
+  socket.on('chat message', function (id, data) {
+    io.to(id).emit('my message', {
+      sender: data.sender,
+      msg: data.msg
+    });
   });
 
 });

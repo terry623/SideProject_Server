@@ -6800,6 +6800,7 @@ var Chat = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
 
 		_this.state = {
+			sender: "",
 			send_target: "",
 			send_msg: "",
 			receive_msg: "",
@@ -6807,6 +6808,7 @@ var Chat = function (_React$Component) {
 		};
 
 		_this.change_msg = _this.change_msg.bind(_this);
+		_this.change_sender = _this.change_sender.bind(_this);
 		_this.handleSend = _this.handleSend.bind(_this);
 		_this.handle_send_target = _this.handle_send_target.bind(_this);
 
@@ -6818,8 +6820,11 @@ var Chat = function (_React$Component) {
 			});
 		}
 
-		socket.on('my message', function (msg) {
-			if (_this.refs.myRef) _this.change_msg(msg);
+		socket.on('my message', function (receive) {
+			if (_this.refs.myRef) {
+				_this.change_sender(receive.sender);
+				_this.change_msg(receive.msg);
+			}
 		});
 
 		return _this;
@@ -6861,6 +6866,8 @@ var Chat = function (_React$Component) {
 				),
 				children,
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_material_ui_TextField___default.a, {
 					className: 'target',
 					label: 'Target',
@@ -6883,10 +6890,16 @@ var Chat = function (_React$Component) {
 					{ raised: true, onClick: this.handleSend },
 					'Send'
 				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				this.state.sender !== "" && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'h2',
 					null,
-					this.state.receive_msg
+					this.state.sender,
+					' : ',
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'h2',
+						null,
+						this.state.receive_msg
+					)
 				)
 			);
 		}
@@ -6898,12 +6911,19 @@ var Chat = function (_React$Component) {
 			});
 		}
 	}, {
+		key: 'change_sender',
+		value: function change_sender(sender) {
+			this.setState({
+				sender: sender
+			});
+		}
+	}, {
 		key: 'handleSend',
 		value: function handleSend() {
 			var _this3 = this;
 
 			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_api_chat_js__["b" /* get_target_socket_id */])(this.state.send_target).then(function (result) {
-				socket.emit('chat message', result.socket_id, _this3.state.send_msg);
+				socket.emit('chat message', result.socket_id, { sender: _this3.props.account, msg: _this3.state.send_msg });
 			}).catch(function (err) {
 				console.log("Erro Send Message!");
 			});
@@ -13263,15 +13283,6 @@ var Main = function (_React$Component) {
                                     null,
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         __WEBPACK_IMPORTED_MODULE_3_reactstrap__["e" /* NavLink */],
-                                        { tag: __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */], to: '/Chat' },
-                                        'Chat'
-                                    )
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    __WEBPACK_IMPORTED_MODULE_3_reactstrap__["d" /* NavItem */],
-                                    null,
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        __WEBPACK_IMPORTED_MODULE_3_reactstrap__["e" /* NavLink */],
                                         { tag: __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */], to: '/SigeUp' },
                                         'SigeUp'
                                     )
@@ -13298,9 +13309,6 @@ var Main = function (_React$Component) {
                         } }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { exact: true, path: '/Collection', render: function render() {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6_components_Collection_jsx__["a" /* default */], null);
-                        } }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { exact: true, path: '/Chat', render: function render() {
-                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Chat_jsx__["a" /* default */], null);
                         } }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { exact: true, path: '/SigeUp', render: function render() {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SignUp_jsx__["a" /* default */], null);
