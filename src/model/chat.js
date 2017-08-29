@@ -64,10 +64,22 @@ function update_distance(client_1, client_2, distance) {
     return db.one(sql, [client_1, client_2, distance]);
 }
 
+function find_friends_around_you(account) {
+    
+        const sql = `
+            SELECT *
+            FROM Distance
+            where ( client_1 = $1 or client_2 = $1 ) and distance < 1
+        `;
+
+    return db.any(sql, [account]);
+}
+
 module.exports = {
     store_socket_id,
     get_target_socket_id,
     search_friends,
     add_friends,
-    update_distance
+    update_distance,
+    find_friends_around_you
 };

@@ -29,7 +29,7 @@ router.post('/signup', function (req, res, next) {
                     people.map(result => {
                         if (infor.username !== result.username) {
                             chatModel.add_friends(infor.username, result.username).then(relationship => {
-                                console.log(relationship.client_1 + " & " + relationship.client_2 + " become friend");
+                                console.log(relationship.client_1 + " & " + relationship.client_2 + " become friends");
                             }).catch(next);
                         }
                     });
@@ -155,6 +155,19 @@ router.post('/get_target_socket_id', function (req, res, next) {
     } = req.body;
 
     chatModel.get_target_socket_id(account).then(infor => {
+        res.json(infor);
+    }).catch(next);
+
+});
+
+// Find Friends Around You
+router.post('/find_friends_around_you', function (req, res, next) {
+    
+    const {
+        account
+    } = req.body;
+
+    chatModel.find_friends_around_you(account).then(infor => {
         res.json(infor);
     }).catch(next);
 

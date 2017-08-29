@@ -5,6 +5,7 @@ const db = pgp(process.env.DB_URL);
 const schemaSql = `
     DROP TABLE IF EXISTS Users;
     DROP TABLE IF EXISTS Photos;
+    DROP TABLE IF EXISTS Distance;
 
     CREATE TABLE Users (
         id              serial PRIMARY KEY NOT NULL,
