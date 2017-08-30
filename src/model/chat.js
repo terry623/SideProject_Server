@@ -70,9 +70,9 @@ function find_friends_around_you(account) {
         SELECT b.client_1, b.client_2, a.socket_id
         FROM Users a, Distance b
         where
-        ( b.client_1 = $1 and a.username = b.client_2 and b.distance < 1 )
+        ( b.client_1 = $1 and a.username = b.client_2 and b.distance < 1 and a.socket_id is not null )
         or
-        ( b.client_2 = $1 and a.username = b.client_1 and b.distance < 1 )
+        ( b.client_2 = $1 and a.username = b.client_1 and b.distance < 1 and a.socket_id is not null )
     `;
 
     return db.any(sql, [account]);

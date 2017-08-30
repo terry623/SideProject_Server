@@ -28,9 +28,7 @@ router.post('/signup', function (req, res, next) {
                 otherModel.show_all_users().then(people => {
                     people.map(result => {
                         if (infor.username !== result.username) {
-                            chatModel.add_friends(infor.username, result.username).then(relationship => {
-                                // console.log(relationship.client_1 + " & " + relationship.client_2 + " become friends");
-                            }).catch(next);
+                            chatModel.add_friends(infor.username, result.username).then(relationship => {}).catch(next);
                         }
                     });
                 }).catch(next);
@@ -171,11 +169,6 @@ router.post('/find_friends_around_you', function (req, res, next) {
     } = req.body;
 
     chatModel.find_friends_around_you(account).then(infor => {
-        infor.map(result => {
-            console.log(result.client_1);
-            console.log(result.client_2);
-            console.log(result.socket_id);
-        });
         res.json(infor);
     }).catch(next);
 
