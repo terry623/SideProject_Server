@@ -15194,6 +15194,12 @@ var StreetView = function (_React$Component) {
 		};
 
 		_this.handle_screenshot = _this.handle_screenshot.bind(_this);
+
+		navigator.geolocation.getCurrentPosition(function (position) {
+			console.log("lat: " + position.coords.latitude);
+			console.log("lng: " + position.coords.longitude);
+		});
+
 		return _this;
 	}
 
@@ -15484,11 +15490,11 @@ function screenshot(account, lat, lng, heading, pitch) {
 function get_last_position(account, lat, lng, heading, pitch, time) {
     return function (dispatch, getState) {
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_api_photo_js__["d" /* get_last_position */])(account).then(function (infor) {
-
             if (infor.current_lat !== 0 && infor.current_lng !== 0) {
                 dispatch(start_location(infor.current_lat, infor.current_lng, infor.current_heading, infor.current_pitch, infor.travel_time));
-            } else dispatch(store_current_position(account, lat, lng, heading, pitch, time));
-
+            } else {
+                dispatch(store_current_position(account, lat, lng, heading, pitch, time));
+            }
             dispatch(remind_action("Finish Get Last Position!"));
         }).catch(function (err) {
             dispatch(remind_action("Get Last Position Error!"));
