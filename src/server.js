@@ -8,6 +8,7 @@ var app = express();
 var port = 8080;
 var server = app.listen(port, () => {
   console.log(`Server is up and running on port ${port}...`);
+  console.log('\n');
 });
 var io = require('socket.io').listen(server);
 
@@ -22,12 +23,14 @@ io.on('connection', function (socket) {
 
   io.clients((error, clients) => {
     if (error) throw error;
+    console.log("All Connections :");
     console.log(clients);
+    console.log('\n');
   });
 
   socket.on('disconnect', function () {
     chatModel.remove_socket_id(socket.id).then(result => {
-      if(result.length > 0)console.log("Success Remove Socket ID : " + socket.id);
+      if(result.length > 0)console.log("Remove Socket ID : " + socket.id);
     }).catch();
   });
 

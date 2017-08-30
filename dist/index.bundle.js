@@ -15243,10 +15243,10 @@ var StreetView = function (_React$Component) {
 				this.props.dispatch(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_states_camera_actions_js__["a" /* get_last_position */])(account, lat, lng, heading, pitch, time));
 				this.wait_get_last_position_id = setInterval(function () {
 					return _this3.wait_get_last_position();
-				}, 100);
+				}, 500);
 				this.find_friends_id = setInterval(function () {
 					return _this3.find_friends();
-				}, 500);
+				}, 1000);
 			}
 		}
 	}, {
