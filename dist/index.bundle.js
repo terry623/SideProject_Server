@@ -13392,9 +13392,31 @@ function account() {
 /* harmony export (immutable) */ __webpack_exports__["a"] = camera;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+// var getPosition = function (options) {
+//     return new Promise(function (resolve, reject) {
+//         navigator.geolocation.getCurrentPosition(resolve, reject, options);
+//     });
+// }
+
+// var initCameraState = {
+//     lat: getPosition().then((position) => {
+//         console.log("user real lat: " + position.coords.latitude);
+//         return Number(position.coords.latitude);
+//     }),
+//     lng: getPosition().then((position) => {
+//         console.log("user real lng: " + position.coords.longitude);
+//         return Number(position.coords.latitude);
+//     }),
+//     heading: 100,
+//     pitch: 0,
+//     time: 0,
+//     reminder: "",
+//     finish_get_last_position: false
+// };
+
 var initCameraState = {
-    lat: 24.239660117363,
-    lng: 120.704508544016,
+    lat: 24.162162,
+    lng: 120.646587,
     heading: 100,
     pitch: 0,
     time: 0,
@@ -15194,12 +15216,6 @@ var StreetView = function (_React$Component) {
 		};
 
 		_this.handle_screenshot = _this.handle_screenshot.bind(_this);
-
-		navigator.geolocation.getCurrentPosition(function (position) {
-			console.log("lat: " + position.coords.latitude);
-			console.log("lng: " + position.coords.longitude);
-		});
-
 		return _this;
 	}
 
@@ -15221,6 +15237,9 @@ var StreetView = function (_React$Component) {
 				});
 				this.timer_id = setInterval(function () {
 					return _this2.timer();
+				}, 1000);
+				this.find_friends_id = setInterval(function () {
+					return _this2.find_friends();
 				}, 1000);
 				clearInterval(this.wait_get_last_position_id);
 			}
@@ -15250,9 +15269,6 @@ var StreetView = function (_React$Component) {
 				this.wait_get_last_position_id = setInterval(function () {
 					return _this3.wait_get_last_position();
 				}, 500);
-				this.find_friends_id = setInterval(function () {
-					return _this3.find_friends();
-				}, 1000);
 			}
 		}
 	}, {
@@ -15463,8 +15479,16 @@ window.onload = function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_api_photo_js__ = __webpack_require__(151);
 
 
+var getPosition = function getPosition(options) {
+    return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+};
+
 function store_current_position(account, lat, lng, heading, pitch, time) {
     return function (dispatch, getState) {
+        console.log("store current lat: " + lat);
+        console.log("store current lng: " + lng);
         return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_api_photo_js__["b" /* store_current_position */])(account, lat, lng, heading, pitch, time).then(function (infor) {
             dispatch(start_location(infor.current_lat, infor.current_lng, infor.current_heading, infor.current_pitch, infor.travel_time));
             dispatch(remind_action("Finish Store Current Postition!"));
@@ -15493,7 +15517,11 @@ function get_last_position(account, lat, lng, heading, pitch, time) {
             if (infor.current_lat !== 0 && infor.current_lng !== 0) {
                 dispatch(start_location(infor.current_lat, infor.current_lng, infor.current_heading, infor.current_pitch, infor.travel_time));
             } else {
-                dispatch(store_current_position(account, lat, lng, heading, pitch, time));
+                getPosition().then(function (position) {
+                    dispatch(store_current_position(account, position.coords.latitude, position.coords.longitude, heading, pitch, time));
+                }).catch(function (err) {
+                    console.error(err.message);
+                });
             }
             dispatch(remind_action("Finish Get Last Position!"));
         }).catch(function (err) {
