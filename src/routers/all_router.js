@@ -47,8 +47,12 @@ router.post('/login', function (req, res, next) {
         password
     } = req.body;
 
+    console.log("username:" + username);
+    console.log("password: "+ password);
+
     loginModel.verify(username).then(infor => {
         if (infor.length > 0) {
+
             if (infor[0].password === password) {
                 res.json(infor);
             } else {
