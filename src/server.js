@@ -30,11 +30,15 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function () {
     chatModel.remove_socket_id(socket.id).then(result => {
-      if(result.length > 0)console.log("Remove Socket ID : " + socket.id);
+      if (result.length > 0) console.log("Remove Socket ID : " + socket.id);
     }).catch();
   });
 
   socket.on('chat message', function (id, data) {
+
+    console.log("sender: " + data.sender);
+    console.log("msg: " + data.msg);
+
     io.to(id).emit('my message', {
       sender: data.sender,
       msg: data.msg
