@@ -1,7 +1,7 @@
 {
   "name": "terrylin-streetviewer-server",
   "version": "1.0.0",
-  "description": "Begin a new journey in your life.",
+  "description": "Begin a new journey at your home.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
