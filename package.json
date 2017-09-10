@@ -1,7 +1,7 @@
 {
-  "name": "terrylin-side-project-server",
+  "name": "terrylin-streetviewer-server",
   "version": "1.0.0",
-  "description": "The website is about the photography.",
+  "description": "Begin a new journey in your life.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

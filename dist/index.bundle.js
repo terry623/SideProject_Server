@@ -16937,7 +16937,7 @@ var SimpleDialog = function (_React$Component2) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_15_material_ui_Avatar___default.a,
                                 null,
-                                result.distance.toString()
+                                (result.distance + 1).toString()
                             )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_17_material_ui_List__["ListItemText"], { primary: result.client_1 !== account && result.client_1 || result.client_2 !== account && result.client_2 })
