@@ -15,4 +15,4 @@ $ npm install
 $ npm run start
 ```
 
-此為 Server 端，若要進行更改，要到 [Client](https://github.com/terry623/StreetViewer_Client) 端 build 完，將 dist 資料夾移動並取代到 Server 裡的 dist，再重新 run
+此為 Backend 端，若要進行更改，要到 [Frontend](https://github.com/terry623/StreetViewer_Frontend) 端 build 完，將 dist 資料夾移動並取代到 Backend 裡的 dist，再重新 run
