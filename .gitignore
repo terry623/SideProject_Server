@@ -3,6 +3,7 @@ npm-debug.log
 .tern-project
 data-*.json
 logs.txt
+.vscode
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

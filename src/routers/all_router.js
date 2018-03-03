@@ -91,7 +91,6 @@ router.post('/store_current_position', function (req, res, next) {
                     }).catch(next);
                 }
             });
-            console.log('\n');
         }).catch(next);
         res.json(infor);
     }).catch(next);
